@@ -4,26 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "Engine/TriggerVolume.h"
-#include "OpenDoor.generated.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
+#include "Grabber.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
+class BUILDINGESCAPE_API UGrabber : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UOpenDoor();
+	UGrabber();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	//
-	void OpenDoor();
-	//
-	void CloseDoor();
 
 public:	
 	// Called every frame
@@ -32,17 +29,15 @@ public:
 private:
 	//
 	UPROPERTY(EditAnywhere)
-	float OpenAngle = -90.0f;
+	float Reach = 100.0f;
 	//
-	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+	UPhysicsHandleComponent* PhysicsHandler = nullptr;
 	//
-	UPROPERTY(EditAnywhere)
-	float DoorCloseDelay = 1.0f;
-
-	float LastDoorOpenTime;
-
-	AActor* Owner;
-
-	AActor* Actor; //remember the pawn inherits from actor
+	UInputComponent* InputComponent = nullptr;
+	
+private:
+	//
+	void Grab();
+	//
+	void GrabReleased();
 };
