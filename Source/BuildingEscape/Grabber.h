@@ -40,4 +40,10 @@ private:
 	void Grab();
 	//
 	void GrabReleased();
+	// Find attached physics component
+	void FindPhysicsController();
+	//	Setup input component
+	void SetupInputComponent();
+	// Return hit for physics body in reach
+	FHitResult GetFirstPhysicsBodyInReach() const;
 };
