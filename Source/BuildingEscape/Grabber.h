@@ -42,8 +42,10 @@ private:
 	void GrabReleased();
 	// Find attached physics component
 	void FindPhysicsController();
-	//	Setup input component
+	// Setup input component
 	void SetupInputComponent();
 	// Return hit for physics body in reach
 	FHitResult GetFirstPhysicsBodyInReach() const;
+	// Getting the players view point
+	FVector GetReachLineEnd();
 };

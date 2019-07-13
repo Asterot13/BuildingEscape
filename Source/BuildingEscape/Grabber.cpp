@@ -40,15 +40,11 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	FVector PlayerViewPointLocation;
-	FRotator PlayerViewPointRotation;
-	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
 
-	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 
 	if (PhysicsHandler->GrabbedComponent) 
 	{
-		PhysicsHandler->SetTargetLocation(LineTraceEnd);
+		PhysicsHandler->SetTargetLocation(GetReachLineEnd());
 	}
 }
 
@@ -79,12 +75,7 @@ void UGrabber::FindPhysicsController()
 	// Look for attached Physics Handle
 	PhysicsHandler = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 
-	if (PhysicsHandler)
-	{
-		// Physics handle is found
-
-	}
-	else
+	if (PhysicsHandler == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s missing physics handle component"), *(GetOwner()->GetName()));
 	}
@@ -134,4 +125,14 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
 		UE_LOG(LogTemp, Warning, TEXT("Actor is: %s"), *Hit.GetActor()->GetName());
 
 	return Hit;
+}
+
+FVector UGrabber::GetReachLineEnd()
+{
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
+
+	FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+	return LineTraceEnd;
 }
