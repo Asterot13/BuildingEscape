@@ -24,6 +24,8 @@ protected:
 	void OpenDoor();
 	//
 	void CloseDoor();
+	// Returns total mass in kg
+	float GetTotalMassOfActorsOnPlate();
 
 public:	
 	// Called every frame
@@ -43,6 +45,4 @@ private:
 	float LastDoorOpenTime;
 
 	AActor* Owner;
-
-	AActor* Actor; //remember the pawn inherits from actor
 };
